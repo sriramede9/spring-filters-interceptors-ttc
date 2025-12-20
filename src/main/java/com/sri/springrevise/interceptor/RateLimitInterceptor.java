@@ -1,5 +1,6 @@
 package com.sri.springrevise.interceptor;
 
+import com.sri.springrevise.exceptions.RateLimitExceededException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -20,9 +21,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
         
         int count = requestCounts.getOrDefault(prestoToken, 0);
         if (count >= 5) {
-            response.setStatus(429); // Too Many Requests
-            response.getWriter().write("Bus is full! Please wait for the next one (Rate limit exceeded).");
-            return false; 
+            throw new RateLimitExceededException("Bus 501 is full at Finch & Trudy!");
         }
 
         requestCounts.put(prestoToken, count + 1);
