@@ -1,6 +1,7 @@
 package com.sri.springrevise.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,9 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class TorontoTransitController {
 
     @GetMapping("/destination/union-station")
-    public String reachUnionStation() {
-        // This is the "Bus Ride" logic
-        System.out.println("Controller: Passenger has reached Union Station!");
-        return "Welcome to Union Station! Safe travels in the 6ix. 🍁";
+    public String reachUnionStation(@RequestAttribute("greeting") String greeting) {
+        // The Interceptor already decided the language!
+        return greeting;
     }
 }
