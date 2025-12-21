@@ -4,15 +4,19 @@ import com.sri.springrevise.dto.request.BusCreateRequest;
 import com.sri.springrevise.dto.request.PassengerRequest;
 import com.sri.springrevise.dto.response.BusDTO;
 import com.sri.springrevise.model.Bus;
+import com.sri.springrevise.model.Passenger;
 import com.sri.springrevise.service.BusService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("api/v1/ttc/bus")
@@ -39,6 +43,15 @@ public class BusController {
             @Valid @RequestBody PassengerRequest request) {
 
         return ResponseEntity.ok(convertToDTO(busService.addPassengerToBus(busId, request)));
+    }
+
+    @GetMapping("/{busId}/passengers")
+    public ResponseEntity<Slice<Passenger>> getBusPassengers(
+            @PathVariable String busId,
+            Pageable pageable) {
+
+        // We will call a service that uses our custom repo logic
+        return ResponseEntity.ok(busService.getPassengers(busId, pageable));
     }
 
 

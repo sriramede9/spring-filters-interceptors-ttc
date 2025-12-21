@@ -52,6 +52,9 @@ name="Jean-Talon" \
 ticketId="TTC-9986" \
 boardingStop="York Dale"
 
+Get List of passengers pagination - slicing
+http :8080/api/v1/ttc/bus/501/passengers page==0 size==5 X-Presto-Token:MY_CARD Accept-Language:fr
+
 🛠️ Tech Stack
 Java 21 / Spring Boot 3+
 

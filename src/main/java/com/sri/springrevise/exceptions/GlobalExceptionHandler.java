@@ -52,6 +52,12 @@ public class GlobalExceptionHandler {
     }
 
     // Handle general engine failure
+    @ExceptionHandler(BusNotFoundException.class)
+    public ResponseEntity<String> handleBusNotFoundException(Exception ex) {
+        return ResponseEntity.status(404).body("Please contact TTC support:" + ex.getMessage());
+    }
+
+    // Handle general engine failure
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneralError(Exception ex) {
         return ResponseEntity.status(500).body("Internal Route Error: Please contact TTC support." + ex.getMessage());
