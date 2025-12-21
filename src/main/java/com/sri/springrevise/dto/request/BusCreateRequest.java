@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,4 +26,5 @@ public class BusCreateRequest {
     private LocalDateTime lastServiceDate;
     @NotNull(message = "Active is mandatory")
     private Boolean active;
+    private List<PassengerRequest> passengers = new ArrayList<>();
 }

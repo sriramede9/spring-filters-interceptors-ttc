@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Document(collection = "buses")
@@ -20,5 +22,7 @@ public class Bus {
     private Boolean active;
     
     private LocalDateTime lastServiceDate;
-    private String internalDepotCode; 
+    private String internalDepotCode;
+    @Builder.Default
+    private List<Passenger> passengers = new ArrayList<>();
 }
