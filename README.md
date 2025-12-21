@@ -30,10 +30,10 @@ docker run -p 8080:8080 ttc-express-service
 🧪 Testing the Lifecycle
 Scenario	Command	Expected Result
 
-No Fare (Filter Block)	curl -i http://localhost:8080/api/ttc/destination/union-station	402 Payment Required
-Valid Fare (Full Flow)	curl -i -H "X-Presto-Token: VALID" http://localhost:8080/api/ttc/destination/union-station	200 OK + Arrival Msg
-check if bull is full and locale   curl -H "X-Presto-Token: MY_CARD" -H "Accept-Language: fr" http://localhost:8080/api/ttc/destination/union-station
-Create a Bus :  curl -X POST http://localhost:8080/api/ttc/bus \                                                                            
+No Fare (Filter Block)	curl -i http://localhost:8080/api/v1/ttc/destination/union-station	402 Payment Required
+Valid Fare (Full Flow)	curl -i -H "X-Presto-Token: VALID" http://localhost:8080/api/v1/ttc/destination/union-station	200 OK + Arrival Msg
+check if bull is full and locale   curl -H "X-Presto-Token: MY_CARD" -H "Accept-Language: fr" http://localhost:8080/api/v1/ttc/destination/union-station
+Create a Bus :  curl -X POST http://localhost:8080/api/v1/ttc/bus \                                                                            
 -H "Content-Type: application/json" \
 -H "X-Presto-Token: MY_CARD" \
 -d '{
@@ -43,6 +43,14 @@ Create a Bus :  curl -X POST http://localhost:8080/api/ttc/bus \
 "lastServiceDate": "2025-12-19T10:00:00",
 "active": true
 }'
+Create Passenger:
+
+http POST :8080/api/v1/ttc/bus/501/passengers \
+X-Presto-Token:MY_CARD \
+Accept-Language:fr \
+name="Jean-Talon" \
+ticketId="TTC-9986" \
+boardingStop="York Dale"
 
 🛠️ Tech Stack
 Java 21 / Spring Boot 3+
