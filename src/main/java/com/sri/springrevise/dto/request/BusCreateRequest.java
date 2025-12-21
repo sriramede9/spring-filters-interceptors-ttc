@@ -1,5 +1,6 @@
 package com.sri.springrevise.dto.request;
 
+import com.sri.springrevise.annotations.field.ValidRouteName;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BusCreateRequest {
-    @NotBlank(message = "Route is mandatory")
+    @ValidRouteName
     private String routeName;
     @NotBlank(message = "Driver Name is mandatory")
     private String driverName;
