@@ -3,8 +3,8 @@ package com.sri.springrevise.controller;
 import com.sri.springrevise.dto.request.BusCreateRequest;
 import com.sri.springrevise.dto.request.PassengerRequest;
 import com.sri.springrevise.dto.response.BusDTO;
-import com.sri.springrevise.model.Bus;
-import com.sri.springrevise.model.Passenger;
+import com.sri.springrevise.model.mongo.MongoBus;
+import com.sri.springrevise.model.mongo.Passenger;
 import com.sri.springrevise.service.BusService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -33,7 +33,7 @@ public class BusController {
     }
     @PostMapping("/")
     public ResponseEntity<BusDTO> createBus(@Validated @RequestBody BusCreateRequest busCreateRequest){
-        Bus bus = busService.saveBus(busCreateRequest);
+        MongoBus bus = busService.saveBus(busCreateRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(convertToDTO(bus));
     }
 
@@ -55,7 +55,7 @@ public class BusController {
     }
 
 
-    public BusDTO convertToDTO(Bus entity) {
+    public BusDTO convertToDTO(MongoBus entity) {
         BusDTO dto = new BusDTO();
         dto.setId(entity.getId());
         dto.setRouteName(entity.getRouteName());

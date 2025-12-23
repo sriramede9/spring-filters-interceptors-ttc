@@ -1,8 +1,8 @@
-package com.sri.springrevise.repository.impl;
+package com.sri.springrevise.repository.mongo.impl;
 
-import com.sri.springrevise.model.Bus;
-import com.sri.springrevise.model.Passenger;
-import com.sri.springrevise.repository.BusRepositoryCustom;
+import com.sri.springrevise.model.mongo.MongoBus;
+import com.sri.springrevise.model.mongo.Passenger;
+import com.sri.springrevise.repository.mongo.BusRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -17,7 +17,7 @@ public class BusRepositoryCustomImpl implements BusRepositoryCustom {
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public Bus addPassengerAtomic(String busId, Passenger passenger) {
+    public MongoBus addPassengerAtomic(String busId, Passenger passenger) {
         Query query = new Query(Criteria.where("id").is(busId));
         Update update = new Update().push("passengers", passenger);
 
@@ -26,7 +26,7 @@ public class BusRepositoryCustomImpl implements BusRepositoryCustom {
                 query,
                 update,
                 new FindAndModifyOptions().returnNew(true),
-                Bus.class
+                MongoBus.class
         );
     }
 
@@ -36,7 +36,7 @@ public class BusRepositoryCustomImpl implements BusRepositoryCustom {
         Query query = new Query(Criteria.where("id").is(busId));
         query.fields().include("passengers").slice("passengers", skip, limit);
 
-        Bus bus = mongoTemplate.findOne(query, Bus.class);
+        MongoBus bus = mongoTemplate.findOne(query, MongoBus.class);
         return (bus != null) ? bus.getPassengers() : List.of();
     }
 }

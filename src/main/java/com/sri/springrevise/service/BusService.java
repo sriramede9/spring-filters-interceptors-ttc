@@ -2,20 +2,15 @@ package com.sri.springrevise.service;
 
 import com.sri.springrevise.dto.request.BusCreateRequest;
 import com.sri.springrevise.dto.request.PassengerRequest;
-import com.sri.springrevise.dto.response.BusDTO;
 import com.sri.springrevise.exceptions.BusNotFoundException;
-import com.sri.springrevise.model.Bus;
-import com.sri.springrevise.model.Passenger;
-import com.sri.springrevise.repository.BusRepository;
+import com.sri.springrevise.model.mongo.MongoBus;
+import com.sri.springrevise.model.mongo.Passenger;
+import com.sri.springrevise.repository.mongo.MongoBusRepository;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,23 +18,24 @@ import java.util.Optional;
 
 @Service
 public class BusService {
-    private final BusRepository busRepository;
+    @Qualifier()
+    private final MongoBusRepository busRepository;
 
-    public BusService(BusRepository busRepository) {
+    public BusService(MongoBusRepository busRepository) {
         this.busRepository = busRepository;
     }
 
-    public Optional<Bus> getBusyByBusId(String busId) {
+    public Optional<MongoBus> getBusyByBusId(String busId) {
         return busRepository.findById(busId);
     }
 
-    public Bus saveBus(BusCreateRequest busCreateRequest) {
-        Bus bus = createBusFromBusCreateRequest(busCreateRequest);
+    public MongoBus saveBus(BusCreateRequest busCreateRequest) {
+        MongoBus bus = createBusFromBusCreateRequest(busCreateRequest);
         return busRepository.save(bus);
     }
 
-    private Bus createBusFromBusCreateRequest(BusCreateRequest busCreateRequest) {
-        return Bus.builder()
+    private MongoBus createBusFromBusCreateRequest(BusCreateRequest busCreateRequest) {
+        return MongoBus.builder()
                 .lastServiceDate(busCreateRequest.getLastServiceDate())
                 .driverName(busCreateRequest.getDriverName())
                 .active(busCreateRequest.getActive())
@@ -48,11 +44,11 @@ public class BusService {
                 .build();
     }
 
-    public Bus addPassengerToBus(String busId, @Valid PassengerRequest request) {
+    public MongoBus addPassengerToBus(String busId, @Valid PassengerRequest request) {
         // 1. Create the Passenger object
         Passenger newPassenger = getPassenger(request);
 
-        Bus updatedBus = busRepository.addPassengerAtomic(busId, newPassenger);
+        MongoBus updatedBus = busRepository.addPassengerAtomic(busId, newPassenger);
 
         if (updatedBus == null) {
             throw new BusNotFoundException("Bus not found: " + busId);

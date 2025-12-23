@@ -23,11 +23,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 1. check if the capacity is full
-        registry.addInterceptor(rateLimitInterceptor).addPathPatterns("/api/ttc/**");
-        // 2. Then decide what language to speak
-        registry.addInterceptor(localeInterceptor).addPathPatterns("/api/ttc/**");
-        // 3. then check for payment
-        registry.addInterceptor(driverInterceptor)
-                .addPathPatterns("/api/ttc/**"); 
+//        registry.addInterceptor(rateLimitInterceptor).addPathPatterns("/api/ttc/**");
+//        // 2. Then decide what language to speak
+//        registry.addInterceptor(localeInterceptor).addPathPatterns("/api/ttc/**");
+//        // 3. then check for payment
+//        registry.addInterceptor(driverInterceptor)
+//                .addPathPatterns("/api/ttc/**");
     }
 }

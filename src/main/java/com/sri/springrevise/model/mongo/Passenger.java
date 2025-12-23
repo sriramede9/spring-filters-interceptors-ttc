@@ -1,4 +1,4 @@
-package com.sri.springrevise.model;
+package com.sri.springrevise.model.mongo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

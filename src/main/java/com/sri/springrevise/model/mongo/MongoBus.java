@@ -1,4 +1,4 @@
-package com.sri.springrevise.model;
+package com.sri.springrevise.model.mongo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.util.List;
 @Document(collection = "buses")
 @AllArgsConstructor
 @Builder
-public class Bus {
+public class MongoBus {
     @Id
     private String id;
     private String driverName;
@@ -23,6 +23,7 @@ public class Bus {
     
     private LocalDateTime lastServiceDate;
     private String internalDepotCode;
+    private String engineSerial;
     @Builder.Default
     private List<Passenger> passengers = new ArrayList<>();
 }

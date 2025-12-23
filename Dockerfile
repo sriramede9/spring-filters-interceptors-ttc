@@ -1,17 +1,35 @@
-# Stage 1: Build the application
-FROM maven:3.9-eclipse-temurin-21 AS build
-COPY . /app
-WORKDIR /app
-RUN mvn clean package -DskipTests
+services:
+  # The PostgreSQL Instance (Relational)
+  postgres-db:
+    image: postgres:15
+    container_name: transit-postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: transit_db
+    ports:
+      - "5432:5432"
 
-# Stage 2: Run the application
-FROM eclipse-temurin:21-jre-jammy
-WORKDIR /app
-# Copy only the built jar
-COPY --from=build /app/target/*.jar app.jar
+  # The MongoDB Instance (NoSQL)
+  mongodb:
+    image: mongo:latest
+    container_name: transit-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
 
-# Expose the TTC Service Port
-EXPOSE 8080
-
-# Run with optimized memory settings for container
-ENTRYPOINT ["java", "-jar", "app.jar"]
+  # Your Spring Boot Application
+  ttc-service:
+    build: .
+    container_name: ttc-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+      - mongodb
+    environment:
+      # These override application.properties when running in Docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/transit_db
+      SPRING_DATA_MONGODB_URI: mongodb://admin:password@mongodb:27017/transit_mongo?authSource=admin
