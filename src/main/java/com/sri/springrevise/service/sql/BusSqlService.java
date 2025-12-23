@@ -19,7 +19,7 @@ public class BusSqlService {
         this.sqlBusRepository = sqlBusRepository;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Bus createBusWithEngine(String serial) {
         Bus bus = new Bus();
         Engine engine = new Engine();
