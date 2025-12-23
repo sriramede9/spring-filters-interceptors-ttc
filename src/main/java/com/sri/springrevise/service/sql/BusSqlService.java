@@ -34,11 +34,14 @@ public class BusSqlService {
     }
 
     public Stream<BusDTO> getAllBuses() {
-        List<Bus> busList = sqlBusRepository.findAll();
+        List<Bus> busList = sqlBusRepository.findAllWithEngines();
+        System.out.println("check with Entity Graph");
+        List<Bus> busList2 = sqlBusRepository.findAll();
         return convertDto(busList);
     }
 
     private Stream<BusDTO> convertDto(List<Bus> busList) {
+        System.out.println("we are checking lazy initialization");
         return busList.stream().map(bus -> {
             BusDTO busDTO = new BusDTO();
             busDTO.setId(bus.getId().toString());

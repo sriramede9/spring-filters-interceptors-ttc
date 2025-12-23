@@ -54,7 +54,19 @@ boardingStop="York Dale"
 
 Get List of passengers pagination - slicing
 http :8080/api/v1/ttc/bus/501/passengers page==0 size==5 X-Presto-Token:MY_CARD Accept-Language:fr
+-------------------------------
+##Internal Reading
+N+1 resolution FetchType.Lazy and left fetch jon/EntityGraph
 
+```http :8080/api/sql/buses X-Presto-Token:MY_CARD Accept-Language:fr```
+
+Creat a Bus with Engine SQL
+```
+http POST :8080/api/sql/buses \                                   
+engineSerialNumber="M4-HYBRID-2025" \
+X-Presto-Token:MY_CARD \
+Accept-Language:fr
+```
 🛠️ Tech Stack
 Java 21 / Spring Boot 3+
 
