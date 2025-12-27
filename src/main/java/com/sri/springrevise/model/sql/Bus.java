@@ -14,5 +14,7 @@ public class Bus {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "engine_id", referencedColumnName = "id", unique = true)
     private Engine engine;
+
+    private Double balance;
 }
 
