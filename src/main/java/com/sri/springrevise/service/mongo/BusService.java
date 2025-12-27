@@ -1,4 +1,4 @@
-package com.sri.springrevise.service;
+package com.sri.springrevise.service.mongo;
 
 import com.sri.springrevise.dto.request.BusCreateRequest;
 import com.sri.springrevise.dto.request.PassengerRequest;

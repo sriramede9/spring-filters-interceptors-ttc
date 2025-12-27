@@ -1,6 +1,6 @@
 package com.sri.springrevise.controller;
 
-import com.sri.springrevise.service.PrestoService;
+import com.sri.springrevise.service.mongo.PrestoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;

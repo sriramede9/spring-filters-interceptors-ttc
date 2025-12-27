@@ -1,4 +1,4 @@
-package com.sri.springrevise.service;
+package com.sri.springrevise.service.mongo;
 
 import com.sri.springrevise.model.mongo.MongoBus;
 import com.sri.springrevise.model.sql.Bus;
