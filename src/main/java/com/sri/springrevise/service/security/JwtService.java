@@ -42,11 +42,11 @@ public class JwtService {
 
     public String extractUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(getSigningKey()) // Your secret key
+                .verifyWith(getSigningKey()) // Replaces setSigningKey()
                 .build()
-                .parseClaimsJws(token)         // This throws an error if signature is invalid
-                .getBody()
-                .getSubject();                 // This returns the "username"
+                .parseSignedClaims(token)    // Replaces parseClaimsJws()
+                .getPayload()               // Replaces getBody()
+                .getSubject();              // Returns the "sub" claim
     }
 
     private SecretKey getSigningKey() {
@@ -55,21 +55,23 @@ public class JwtService {
     }
 
     public List<GrantedAuthority> extractAuthorities(String token) {
-        // 1. Extract all claims from the token
+        // 1. Extract all claims using the modern parser
         Claims claims = Jwts.parser()
-                .setSigningKey(getSigningKey())
+                .verifyWith(getSigningKey()) // Replaces setSigningKey
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)    // Replaces parseClaimsJws
+                .getPayload();               // Replaces getBody
 
-        // 2. Get the roles list (we stored it under the key "roles")
-        // Note: If you stored them as strings, we cast them here
-        List<String> roles = claims.get("roles", List.class);
+        // 2. Get the roles list safely
+        // Senior Tip: If "roles" is null, return an empty list to avoid NPE
+        List<?> roles = claims.get("roles", List.class);
+        if (roles == null) {
+            return List.of();
+        }
 
-        // 3. Convert List<String> to List<GrantedAuthority>
-        // Spring Security needs "SimpleGrantedAuthority" objects
+        // 3. Convert List to List<GrantedAuthority>
         return roles.stream()
-                .map(SimpleGrantedAuthority::new)
+                .map(role -> new SimpleGrantedAuthority(role.toString()))
                 .collect(Collectors.toList());
     }
 
