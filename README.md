@@ -87,6 +87,10 @@ http POST :8080/api/auth/login \
 ### Get Admin DashBoard
 http GET :8080/api/admin/dashboard \
     "Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJzZW5pb3JfZGV2Iiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJpYXQiOjE3NjY4Nzg0MTYsImV4cCI6MTc2Njg4MjAxNn0.gByegSeEh4gbLBvoXpXQW-S5vgzE5wyqxMLuOrQ2N02pJTKcsHz7aybD99UFhgqu"
+    
+### Hello User by Oauth2
+GET :8080/api/v1/user/hello \
+    "Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJvbmx5NHByb2dyYW1taW5nMDNAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImlhdCI6MTc2NjkzNjE3MSwiZXhwIjoxNzY2OTM5NzcxfQ.VYAmjiEopsE8fXOMc6pjdUprxnKqDLb75fb00aSRxsOphTHz9-rMkx_fYHYP4lNO"    
 ```
 
 🛠️ Tech Stack
